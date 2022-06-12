@@ -1,6 +1,7 @@
 package com.example.today_is_diarys.post.entity;
 
 import com.example.today_is_diarys.comment.entity.Comment;
+import com.example.today_is_diarys.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,9 +37,8 @@ public class Post {
     @Column(name = "category")
     private String category;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Comment> comments;
+    @Column(name = "userName")
+    private String writer;
 
     @PrePersist
     public void prePersist(){
@@ -50,10 +50,11 @@ public class Post {
         this.date = LocalDateTime.now();
     }
 
-    public Post(String content, String title, String category){
+    public Post(String content, String title, String category, String writer){
         this.category = category;
         this.content = content;
         this.title = title;
+        this.writer = writer;
     }
 
     public void set(String category, String title, String content){
