@@ -1,9 +1,7 @@
 package com.example.today_is_diarys.comment.entity;
 
 import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
