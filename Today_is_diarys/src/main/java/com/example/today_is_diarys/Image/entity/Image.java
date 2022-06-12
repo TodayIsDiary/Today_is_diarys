@@ -2,15 +2,18 @@ package com.example.today_is_diarys.Image.entity;
 
 import com.example.today_is_diarys.post.entity.Post;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
 @Getter
-@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

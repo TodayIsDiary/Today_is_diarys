@@ -24,20 +24,20 @@ class CommentServiceTest {
 
     @Test
     void create() {
-        Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
+        /*Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
         postRepository.save(poste);
 
         Post post = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("not found"));
         Comment comment = new Comment("정말 슬프네요",post, 0L);
         commentRepository.save(comment);
         String c = comment.getComments();
-        System.out.println(c);
+        System.out.println(c);*/
     }
 
     @Test
     @Transactional
     void set() {
-        Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
+       /* Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
         postRepository.save(poste);
 
         Post post = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("not found"));
@@ -48,12 +48,12 @@ class CommentServiceTest {
         comment1.set("정말 슬프것같네요");
         commentRepository.save(comment1);
         String c = comment.getComments();
-        System.out.println(c);
+        System.out.println(c);*/
     }
 
     @Test
     void delete() {
-        Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
+       /* Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
         postRepository.save(poste);
 
         Post post = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("not found"));
@@ -61,7 +61,7 @@ class CommentServiceTest {
         commentRepository.save(comment);
 
         Comment comment1 = commentRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("not found"));
-        commentRepository.delete(comment1);
+        commentRepository.delete(comment1);*/
     }
 
 }

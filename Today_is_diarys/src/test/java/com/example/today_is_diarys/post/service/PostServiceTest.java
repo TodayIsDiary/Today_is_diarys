@@ -4,6 +4,8 @@ import com.example.today_is_diarys.post.dto.PostDto;
 import com.example.today_is_diarys.post.dto.PostList;
 import com.example.today_is_diarys.post.entity.Post;
 import com.example.today_is_diarys.post.repository.PostRepository;
+import com.example.today_is_diarys.user.entity.User;
+import com.example.today_is_diarys.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,25 +22,34 @@ class PostServiceTest {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Test
     void createBoards() {
+        /*User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
         Post post = new Post("슬픈내용", "슬픈제목", "슬픔");
         postRepository.save(post);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
          post = new Post("기쁜내용", "기쁜제목", "기쁨");
         postRepository.save(post);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
          post = new Post("화나는내용", "화나는제목", "화남");
         postRepository.save(post);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
          post = new Post("기쁜내용2", "기쁜제목2", "기쁨");
         postRepository.save(post);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
          post = new Post("화나는내용2", "화나는제목2", "화남");
         postRepository.save(post);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
          post = new Post("슬픈내용2", "슬픈제목2", "슬픔");
-        postRepository.save(post);
+        postRepository.save(post);*/
     }
 
     @Test
     void delete() {
-        Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
+        /*Post poste = new Post("슬픈내용", "슬픈제목", "슬픔");
         postRepository.save(poste);
         poste = new Post("기쁜내용", "기쁜제목", "기쁨");
         postRepository.save(poste);
@@ -47,6 +58,7 @@ class PostServiceTest {
 
         Post post = postRepository.findById(3L).orElseThrow(() -> new IllegalArgumentException("notfound"));
         postRepository.delete(post);
+         */
     }
 
     @Test
