@@ -4,6 +4,7 @@ import com.example.today_is_diarys.post.repository.PostRepository;
 import com.example.today_is_diarys.post.dto.PostDto;
 import com.example.today_is_diarys.post.dto.PostList;
 import com.example.today_is_diarys.post.entity.Post;
+import com.example.today_is_diarys.user.entity.User;
 import com.example.today_is_diarys.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -19,14 +20,10 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-//    public void createBoard(Long id, PostDto postDto){
-//        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
-//        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user);
-//        postRepository.save(post);
-//    }
-    public void createBoards(PostDto postDto){
-        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory());
-        postRepository.save(post);
+    public void createBoard(Long id, PostDto postDto){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
+        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user.getUsername());
+       postRepository.save(post);
     }
 
     @Transactional

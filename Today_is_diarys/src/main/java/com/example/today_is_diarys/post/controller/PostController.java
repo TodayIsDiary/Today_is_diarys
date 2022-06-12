@@ -30,14 +30,9 @@ public class PostController {
         return postService.detail(id);
     }
 
-//    @PostMapping("/create/{id}")
-//    public void create(@PathVariable Long id, @RequestBody PostDto dto){
-//        postService.createBoard(id,dto);
-//    }
-
-    @PostMapping("")
-    public void create(@RequestBody PostDto dto){
-        postService.createBoards(dto);
+    @PostMapping("{id}")
+    public void create(@PathVariable Long id, @RequestBody PostDto dto){
+        postService.createBoard(id,dto);
     }
 
     @PatchMapping("/{id}")
