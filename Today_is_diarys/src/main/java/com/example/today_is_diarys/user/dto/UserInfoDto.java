@@ -12,5 +12,5 @@ public class UserInfoDto {
     private Long sex;
     private String role;
     private Long age;
-    private String username;
+    private String nickName;
 }

@@ -11,14 +11,16 @@ public class PostList {
     private String title;
     private String content;
     private String category;
+    private String nickName;
     private LocalDateTime dateTime;
 
     @Builder
-    public PostList(Long id, String title, String content, LocalDateTime dateTime, String category){
+    public PostList(Long id, String title, String content, LocalDateTime dateTime, String category, String nickName){
         this.id = id;
         this.title = title;
         this.content = content;
         this.dateTime = dateTime;
+        this.nickName = nickName;
         this.category = category;
     }
 }
