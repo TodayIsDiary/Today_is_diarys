@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user")
-    public String signup(UserInfoDto dto){
+    @PostMapping("/signup")
+    public String signup(@RequestBody UserInfoDto dto){
         userService.save(dto);
-        return "redirect:/signup";
+        return "hi";
+    }
+
+    @PostMapping("/ad/signup")
+    public void adsignup(@RequestBody UserInfoDto dto){
+        userService.adsave(dto);
     }
 
     @GetMapping(value = "/logout")

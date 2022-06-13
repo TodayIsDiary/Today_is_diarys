@@ -30,7 +30,7 @@ public class PostController {
         return postService.detail(id);
     }
 
-    @PostMapping("{id}")
+    @PostMapping("/{id}")
     public void create(@PathVariable Long id, @RequestBody PostDto dto){
         postService.createBoard(id,dto);
     }
