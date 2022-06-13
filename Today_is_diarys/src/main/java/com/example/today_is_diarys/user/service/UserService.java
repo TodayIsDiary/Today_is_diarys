@@ -25,11 +25,24 @@ public class UserService implements UserDetailsService {
         dto.setPassword(encoder.encode(dto.getPassword()));
 
         return userRepository.save(User.builder()
-                .username(dto.getUsername())
                 .email(dto.getEmail())
+                .nickName(dto.getNickName())
                 .password(dto.getPassword())
                 .age(dto.getAge())
                 .sex(dto.getSex())
-                .role(dto.getRole()).build()).getId();
+                .role("ROLE_USER").build()).getId();
+    }
+
+    public Long adsave(UserInfoDto dto){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        dto.setPassword(encoder.encode(dto.getPassword()));
+
+        return userRepository.save(User.builder()
+                .email("admin@gmail.com")
+                .nickName("bearKing")
+                .password("bear")
+                .age(99L)
+                .sex(1L)
+                .role("ROLE_ADMIN,ROLE_USER").build()).getId();
     }
 }

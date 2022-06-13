@@ -22,7 +22,7 @@ public class PostService {
 
     public void createBoard(Long id, PostDto postDto){
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
-        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user.getUsername());
+        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user.getNickName());
        postRepository.save(post);
     }
 
@@ -38,6 +38,7 @@ public class PostService {
                     .category(post.getCategory())
                     .content(post.getContent())
                     .id(post.getId())
+                    .nickName(post.getWriter())
                     .dateTime(post.getDate())
                     .build();
             postLists.add(dto);
@@ -59,6 +60,7 @@ public class PostService {
                         .category(post.getCategory())
                         .content(post.getContent())
                         .id(post.getId())
+                        .nickName(post.getWriter())
                         .dateTime(post.getDate())
                         .build();
                 postLists.add(dto);
