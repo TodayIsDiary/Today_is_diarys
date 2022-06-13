@@ -37,6 +37,9 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd-ttt")
     private LocalDateTime commentDate;
 
+    @Column(name = "nickName")
+    private String nickName;
+
     @PrePersist
     public void prePersist(){
         this.commentDate = LocalDateTime.now();

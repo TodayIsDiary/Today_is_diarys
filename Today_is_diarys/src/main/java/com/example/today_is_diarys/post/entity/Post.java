@@ -37,7 +37,7 @@ public class Post {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "userName")
+    @Column(name = "nickName")
     private String writer;
 
     @PrePersist
@@ -50,16 +50,16 @@ public class Post {
         this.date = LocalDateTime.now();
     }
 
-    public Post(String content, String title, String category, String writer){
-        this.category = category;
-        this.content = content;
+    public Post(String title, String content, String category, String writer){
         this.title = title;
+        this.content = content;
+        this.category = category;
         this.writer = writer;
     }
 
-    public void set(String category, String title, String content){
-        this.category = category;
-        this.content = content;
+    public void set(String title, String content, String category){
         this.title = title;
+        this.content = content;
+        this.category = category;
     }
 }
