@@ -1,8 +1,5 @@
 package com.example.today_is_diarys.user.entity;
 
-import com.example.today_is_diarys.comment.entity.Comment;
-import com.example.today_is_diarys.post.entity.Post;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,26 +27,26 @@ public class User implements UserDetails {
     @Column(nullable = false,name="age", length = 101)
     private Long age;
 
-    @Column(nullable = false, name = "userName")
-    private String username;
+    @Column(nullable = false, name = "nickName")
+    private String nickName;
 
     @Column(nullable = false,name = "password")
     @Setter
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "email")
     private String email;
 
     @Column(name = "role")
     private String role;
 
     @Builder
-    public User(String username, Long sex, Long age, String password, String email ,String role){
+    public User(String nickName, Long sex, Long age, String password, String email ,String role){
         this.email = email;
         this.password = password;
         this.age = age;
         this.sex = sex;
-        this.username = username;
+        this.nickName = nickName;
         this.role = role;
     }
 
