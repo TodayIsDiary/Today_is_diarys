@@ -1,12 +1,11 @@
 package com.example.today_is_diarys.token.utile;
 
+import com.example.today_is_diarys.token.dto.TokenDto;
 import com.example.today_is_diarys.user.entity.User;
 import com.example.today_is_diarys.user.service.UserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,15 +19,15 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("spring.jwt.secret")
-    private String secretKey = "beargame";
+    @Value("beargame")
+    private String secretKey;
 
-    //토큰 유효시간 25분
-    private long tokenVaildTime = 25 * 60 * 1000L;
-
+    private final long accessTokenValidTime = 60 * 60 * 1000L; // 1시간
+    private final long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
     private final UserDetailsService userService;
 
     @PostConstruct
@@ -36,39 +35,66 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userPk, String roles){
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public TokenDto createToken(String userPk, String roles){
+        Claims claims = Jwts.claims().setSubject(String.valueOf(userPk));
         claims.put("roles", roles);
         Date now = new Date();
-        return Jwts.builder()
+
+        String accessToken = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenVaildTime))
+                .setExpiration(new Date(now.getTime() + accessTokenValidTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
-
                 .compact();
+
+        String refreshToken = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+
+        return TokenDto.builder()
+                .grantType("bearer")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .accessTokenExpireDate(accessTokenValidTime)
+                .build();
     }
 
     //JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token){
-        UserDetails user = userService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+
+        // Jwt 에서 claims 추출
+        Claims claims = parseClaims(token);
+
+        // 권한 정보가 없음
+        if(claims.get("roles") == null){
+            throw new IllegalStateException("no roles");
+        }
+        UserDetails userDetails = userService.loadUserByUsername(claims.getSubject());
+        return new UsernamePasswordAuthenticationToken(userDetails, "",userDetails.getAuthorities());
     }
 
-    //토큰에서 회원 정보 추출
-    public String getUserPk(String token){
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    // Jwt 토큰 복호화해서 가져옴
+    private Claims parseClaims(String token){
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        }catch (ExpiredJwtException e){
+            return e.getClaims();
+        }
     }
 
-    //Request의 Header에서 토큰 값을 가져온다. "X-AUTH-TOKEN" : "TOKEN값'
+    //HTTP Request 의 Header 에서 Token Parsing -> "X-AUTH-TOKEN: jwt"
     public String resolveToken(HttpServletRequest request){ return request.getHeader("X-AUTH-TOKEN");}
 
-    //토큰 유효성 + 만료일자 확인
+    //jwt 의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken){
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        }catch (Exception e){
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return true;
+        }catch (JwtException | IllegalArgumentException e){
+            log.error(e.toString());
             return false;
         }
     }
