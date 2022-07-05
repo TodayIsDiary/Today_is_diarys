@@ -1,4 +1,4 @@
-package com.example.today_is_diarys.post.dto;
+package com.example.today_is_diarys.dto.post.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

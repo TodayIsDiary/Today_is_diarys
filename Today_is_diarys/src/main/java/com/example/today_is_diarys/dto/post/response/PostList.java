@@ -1,4 +1,4 @@
-package com.example.today_is_diarys.post.dto;
+package com.example.today_is_diarys.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
