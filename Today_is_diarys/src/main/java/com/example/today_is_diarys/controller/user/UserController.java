@@ -1,9 +1,10 @@
-package com.example.today_is_diarys.user.controller;
+package com.example.today_is_diarys.controller.user;
 
-import com.example.today_is_diarys.token.utile.JwtTokenProvider;
-import com.example.today_is_diarys.user.dto.UserInfoDto;
-import com.example.today_is_diarys.user.entity.User;
-import com.example.today_is_diarys.user.repository.UserRepository;
+import com.example.today_is_diarys.dto.user.request.UserInfoDto;
+import com.example.today_is_diarys.entity.user.User;
+import com.example.today_is_diarys.enums.Role;
+import com.example.today_is_diarys.repository.user.UserRepository;
+import com.example.today_is_diarys.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     @PostMapping("/signup")
     public void signup(@RequestBody UserInfoDto dto){
@@ -26,9 +27,10 @@ public class UserController {
                 .email(dto.getEmail())
                 .nickName(dto.getNickName())
                 .password(passwordEncoder.encode(dto.getPassword()))
+                .introduce(dto.getIntroduce())
                 .age(dto.getAge())
                 .sex(dto.getSex())
-                .role("ROLE_USER").build()).getId();
+                .role(Role.ROLE_USER).build());
     }
 
     @PostMapping("/ad/signup")
@@ -37,9 +39,10 @@ public class UserController {
                 .email("admin@gmail.com")
                 .nickName("bearKing")
                 .password(passwordEncoder.encode("bear"))
+                .introduce("admin")
                 .age(99L)
                 .sex(1L)
-                .role("ROLE_ADMIN,ROLE_USER").build()).getId();
+                .role(Role.ROLE_ADMIN).build());
     }
 
     @GetMapping(value = "/logout")
@@ -49,18 +52,32 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserInfoDto dto){
+    public void login(@RequestBody UserInfoDto dto){
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(()-> new IllegalArgumentException("가입하지 않은 Email입니다 (ㅡ_ㅡ)"));
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new IllegalStateException("잘못된 비밀번호 입니다.");
         }
-        return jwtTokenProvider.createToken(user.getEmail(), user.getRole());
     }
 
     @DeleteMapping("/leave/{id}")
     public String leave(@PathVariable Long id){
         userRepository.deleteById(id);
         return "회원정보가 삭제되었습니다...";
+    }
+
+    @PatchMapping("/user/nicknames/{id}")
+    public void setNk(@PathVariable Long id, @RequestBody UserInfoDto dto){
+        userService.SetNk(dto, id);
+    }
+
+    @PatchMapping("/user/introduces/{id}")
+    public void setIc(@PathVariable Long id, @RequestBody UserInfoDto dto){
+        userService.SetIc(dto, id);
+    }
+
+    @GetMapping("/user/{id}")
+    public String getUsers(@PathVariable Long id){
+        return userService.getUser(id);
     }
 }
