@@ -1,6 +1,6 @@
-package com.example.today_is_diarys.post.repository;
+package com.example.today_is_diarys.repository.post;
 
-import com.example.today_is_diarys.post.entity.Post;
+import com.example.today_is_diarys.entity.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
