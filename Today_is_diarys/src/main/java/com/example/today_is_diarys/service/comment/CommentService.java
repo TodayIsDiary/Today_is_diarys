@@ -1,11 +1,11 @@
-package com.example.today_is_diarys.comment.service;
+package com.example.today_is_diarys.service.comment;
 
-import com.example.today_is_diarys.comment.dto.CommentDto;
-import com.example.today_is_diarys.comment.dto.CommentList;
-import com.example.today_is_diarys.comment.entity.Comment;
-import com.example.today_is_diarys.comment.repository.CommentRepository;
-import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.post.repository.PostRepository;
+import com.example.today_is_diarys.dto.comment.request.CommentDto;
+import com.example.today_is_diarys.dto.comment.response.CommentList;
+import com.example.today_is_diarys.entity.comment.Comment;
+import com.example.today_is_diarys.repository.comment.CommentRepository;
+import com.example.today_is_diarys.entity.post.Post;
+import com.example.today_is_diarys.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CommentService {
         Comment commentId = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found"));
         Post post = commentId.getPost();
 
-        Comment comment = new Comment(dto.getComments(),post, commentId.getId());
+        Comment comment = new Comment(dto.getComments(), post, commentId.getId());
         commentRepository.save(comment);
     }
 
