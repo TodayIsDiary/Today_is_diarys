@@ -1,18 +1,18 @@
-package com.example.today_is_diarys.user.entity;
+package com.example.today_is_diarys.entity.user;
 
+import com.example.today_is_diarys.entity.post.Post;
+import com.example.today_is_diarys.enums.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
-@Table(name = "USERS")
+@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -37,16 +37,29 @@ public class User implements UserDetails {
     @Column(nullable = false, name = "email")
     private String email;
 
-    @Column(name = "role")
-    private String role;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(length = 30)
+    private String introduce;
+
+    public void setNK(String nickName){
+        this.nickName = nickName;
+    }
+
+    public void setIC(String introduce){
+        this.introduce = introduce;
+    }
 
     @Builder
-    public User(String nickName, Long sex, Long age, String password, String email ,String role){
+    public User(String nickName, Long sex, Long age, String password, String email ,Role role, String introduce){
         this.email = email;
         this.password = password;
         this.age = age;
         this.sex = sex;
         this.nickName = nickName;
+        this.introduce = introduce;
         this.role = role;
     }
 
@@ -62,10 +75,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> roles = new HashSet<>();
-        for(String rol : role.split(",")){
-            roles.add(new SimpleGrantedAuthority(rol));
-        }
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(User.builder().nickName));
         return roles;
     }
 
