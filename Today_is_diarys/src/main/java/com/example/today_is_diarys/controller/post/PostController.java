@@ -1,9 +1,9 @@
-package com.example.today_is_diarys.post.controller;
+package com.example.today_is_diarys.controller.post;
 
-import com.example.today_is_diarys.post.dto.PostDto;
-import com.example.today_is_diarys.post.dto.PostList;
-import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.post.service.PostService;
+import com.example.today_is_diarys.dto.post.request.PostDto;
+import com.example.today_is_diarys.dto.post.response.PostList;
+import com.example.today_is_diarys.entity.post.Post;
+import com.example.today_is_diarys.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

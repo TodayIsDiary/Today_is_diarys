@@ -1,6 +1,6 @@
-package com.example.today_is_diarys.comment.entity;
+package com.example.today_is_diarys.entity.comment;
 
-import com.example.today_is_diarys.post.entity.Post;
+import com.example.today_is_diarys.entity.post.Post;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "COMMENT")
+@Table(name = "comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
