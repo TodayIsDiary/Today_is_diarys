@@ -1,17 +1,12 @@
 package com.example.today_is_diarys.comment.service;
 
-import com.example.today_is_diarys.comment.dto.CommentDto;
-import com.example.today_is_diarys.comment.entity.Comment;
-import com.example.today_is_diarys.comment.repository.CommentRepository;
-import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.post.repository.PostRepository;
+import com.example.today_is_diarys.repository.comment.CommentRepository;
+import com.example.today_is_diarys.repository.post.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CommentServiceTest {
