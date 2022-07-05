@@ -1,20 +1,14 @@
 package com.example.today_is_diarys.post.service;
 
-import com.example.today_is_diarys.post.dto.PostDto;
-import com.example.today_is_diarys.post.dto.PostList;
-import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.post.repository.PostRepository;
-import com.example.today_is_diarys.user.entity.User;
-import com.example.today_is_diarys.user.repository.UserRepository;
+import com.example.today_is_diarys.dto.post.request.PostDto;
+import com.example.today_is_diarys.entity.post.Post;
+import com.example.today_is_diarys.repository.post.PostRepository;
+import com.example.today_is_diarys.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 
 import javax.transaction.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 class PostServiceTest {
