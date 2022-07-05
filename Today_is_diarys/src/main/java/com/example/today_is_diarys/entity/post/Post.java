@@ -1,8 +1,6 @@
-package com.example.today_is_diarys.post.entity;
+package com.example.today_is_diarys.entity.post;
 
-import com.example.today_is_diarys.comment.entity.Comment;
-import com.example.today_is_diarys.user.entity.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.today_is_diarys.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Builder
 @Getter
 @Entity
-@Table(name = "POST")
+@Table(name = "post")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
@@ -39,6 +36,14 @@ public class Post {
 
     @Column(name = "nickName")
     private String writer;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @PrePersist
     public void prePersist(){
