@@ -1,11 +1,11 @@
-package com.example.today_is_diarys.post.service;
+package com.example.today_is_diarys.service.post;
 
-import com.example.today_is_diarys.post.repository.PostRepository;
-import com.example.today_is_diarys.post.dto.PostDto;
-import com.example.today_is_diarys.post.dto.PostList;
-import com.example.today_is_diarys.post.entity.Post;
-import com.example.today_is_diarys.user.entity.User;
-import com.example.today_is_diarys.user.repository.UserRepository;
+import com.example.today_is_diarys.repository.post.PostRepository;
+import com.example.today_is_diarys.dto.post.request.PostDto;
+import com.example.today_is_diarys.dto.post.response.PostList;
+import com.example.today_is_diarys.entity.post.Post;
+import com.example.today_is_diarys.entity.user.User;
+import com.example.today_is_diarys.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
