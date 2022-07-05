@@ -1,12 +1,10 @@
 package com.example.today_is_diarys.Image.entity;
 
-import com.example.today_is_diarys.post.entity.Post;
+import com.example.today_is_diarys.entity.post.Post;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
