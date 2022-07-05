@@ -1,7 +1,5 @@
-package com.example.today_is_diarys.config;
+package com.example.today_is_diarys.security;
 
-import com.example.today_is_diarys.filter.JwtAuthenticationFilter;
-import com.example.today_is_diarys.token.utile.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void configure(WebSecurity web){
@@ -44,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .cors()
+                .and()
                 .headers().frameOptions().disable()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -54,8 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter((jwtTokenProvider)),
-                            UsernamePasswordAuthenticationFilter.class)
                     .logout()
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true);
