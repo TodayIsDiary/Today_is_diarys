@@ -1,4 +1,4 @@
-package com.example.today_is_diarys.user.dto;
+package com.example.today_is_diarys.dto.user.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +13,5 @@ public class UserInfoDto {
     private String role;
     private Long age;
     private String nickName;
+    private String introduce;
 }

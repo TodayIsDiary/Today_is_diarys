@@ -1,8 +1,8 @@
-package com.example.today_is_diarys.comment.controller;
+package com.example.today_is_diarys.controller.comment;
 
-import com.example.today_is_diarys.comment.dto.CommentDto;
-import com.example.today_is_diarys.comment.dto.CommentList;
-import com.example.today_is_diarys.comment.service.CommentService;
+import com.example.today_is_diarys.dto.comment.request.CommentDto;
+import com.example.today_is_diarys.dto.comment.response.CommentList;
+import com.example.today_is_diarys.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
