@@ -19,7 +19,7 @@ public class ReportService {
 
     // 리폿추가 기능
     public void report(Long postId){
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("NOT_FOUNT"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("NOT_FOUND"));
 
         Reports reports = Reports.builder()
                 .postId(post.getId())
