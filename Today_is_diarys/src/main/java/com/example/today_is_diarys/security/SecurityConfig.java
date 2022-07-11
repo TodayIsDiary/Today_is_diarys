@@ -1,5 +1,7 @@
 package com.example.today_is_diarys.security;
 
+import com.example.today_is_diarys.security.filter.JwtAuthenticationFilter;
+import com.example.today_is_diarys.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +13,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtProvider;
 
     @Override
     public void configure(WebSecurity web){
@@ -29,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    // authenticatonManager를 Bean 등록합니다.
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception{
@@ -40,11 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors()
-                .and()
                 .headers().frameOptions().disable()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 생성안한다는 명령어
                 .and()
                 .authorizeRequests()
                     .antMatchers("/login","/signup","/ad/**").permitAll()
@@ -52,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+            // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣음.
+
     }
 }
