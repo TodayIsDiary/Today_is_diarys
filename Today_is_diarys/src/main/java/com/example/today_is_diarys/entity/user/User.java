@@ -1,7 +1,6 @@
 package com.example.today_is_diarys.entity.user;
 
-import com.example.today_is_diarys.entity.post.Post;
-import com.example.today_is_diarys.enums.Role;
+import com.example.today_is_diarys.security.auth.enums.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,10 +33,10 @@ public class User{
     @Setter
     private String password;
 
-    @Column(nullable = false, name = "email")
+    @Column(nullable = false, name = "email",unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -53,7 +52,7 @@ public class User{
     }
 
     @Builder
-    public User(String nickName, Long sex, Long age, String password, String email ,Role role, String introduce){
+    public User(String nickName, Long sex, Long age, String password, String email ,String introduce, Role role){
         this.email = email;
         this.password = password;
         this.age = age;
@@ -62,6 +61,5 @@ public class User{
         this.introduce = introduce;
         this.role = role;
     }
-
 
 }
