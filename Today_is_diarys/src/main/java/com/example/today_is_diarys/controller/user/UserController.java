@@ -1,11 +1,15 @@
 package com.example.today_is_diarys.controller.user;
 
 import com.example.today_is_diarys.dto.user.request.UserInfoDto;
+import com.example.today_is_diarys.dto.user.response.UserDto;
 import com.example.today_is_diarys.entity.user.User;
-import com.example.today_is_diarys.enums.Role;
 import com.example.today_is_diarys.repository.user.UserRepository;
+import com.example.today_is_diarys.security.auth.enums.Role;
+import com.example.today_is_diarys.security.jwt.JwtTokenProvider;
 import com.example.today_is_diarys.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -17,32 +21,33 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+    private final JwtTokenProvider jwtProvider;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
     @PostMapping("/signup")
-    public void signup(@RequestBody UserInfoDto dto){
-                 userRepository.save(User.builder()
+    public Long signup(@RequestBody UserInfoDto dto){
+        return  userRepository.save(User.builder()
                 .email(dto.getEmail())
                 .nickName(dto.getNickName())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .introduce(dto.getIntroduce())
                 .age(dto.getAge())
                 .sex(dto.getSex())
-                .role(Role.ROLE_USER).build());
+                .role(Role.ROLE_USER).build()).getId();
     }
 
     @PostMapping("/ad/signup")
-    public void adsignup(){
-        userRepository.save(User.builder()
+    public Long adsignup(){
+        return userRepository.save(User.builder()
                 .email("admin@gmail.com")
                 .nickName("bearKing")
                 .password(passwordEncoder.encode("bear"))
                 .introduce("admin")
                 .age(99L)
                 .sex(1L)
-                .role(Role.ROLE_ADMIN).build());
+                .role(Role.ROLE_ADMIN).build()).getId();
     }
 
     @GetMapping(value = "/logout")
@@ -52,12 +57,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody UserInfoDto dto){
+    public String login(@RequestBody UserInfoDto dto){
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(()-> new IllegalArgumentException("가입하지 않은 Email입니다 (ㅡ_ㅡ)"));
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new IllegalStateException("잘못된 비밀번호 입니다.");
         }
+        return jwtProvider.createToken(user.getEmail(), user.getRole());
     }
 
     @DeleteMapping("/leave/{id}")
@@ -76,8 +82,11 @@ public class UserController {
         userService.SetIc(dto, id);
     }
 
-    @GetMapping("/user/{id}")
-    public String getUsers(@PathVariable Long id){
-        return userService.getUser(id);
+    @GetMapping("/my")
+    public UserDto getUsers(Authentication authentication){
+        if(authentication == null){
+            throw new BadCredentialsException("회원 정보를 찾을 수 없습니다.");
+        }
+        return userService.getUser(authentication.getName());
     }
 }
