@@ -1,3 +1,4 @@
+
 spring:
   mvc:
     view:
@@ -16,3 +17,5 @@ spring:
       ddl-auto: create-drop
   profiles:
     include: jwt
+server:
+  port: 9090
