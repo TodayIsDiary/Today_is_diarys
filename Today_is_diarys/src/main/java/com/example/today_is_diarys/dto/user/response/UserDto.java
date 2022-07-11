@@ -1,5 +1,6 @@
 package com.example.today_is_diarys.dto.user.response;
 
+import com.example.today_is_diarys.security.auth.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +14,13 @@ public class UserDto {
     private String email;
     private String password;
     private Long sex;
-    private String role;
+    private Role role;
     private Long age;
     private String nickName;
     private String introduce;
 
     @Builder
-    public UserDto(Long id, String email, String password, Long sex, String role, Long age, String nickName, String introduce){
+    public UserDto(Long id, String email, String password, Long sex, Role role, Long age, String nickName, String introduce){
         this.id = id;
         this.email = email;
         this.password = password;
