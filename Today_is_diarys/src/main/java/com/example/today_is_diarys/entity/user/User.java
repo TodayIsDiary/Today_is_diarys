@@ -2,12 +2,8 @@ package com.example.today_is_diarys.entity.user;
 
 import com.example.today_is_diarys.security.auth.enums.Role;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 @Getter
