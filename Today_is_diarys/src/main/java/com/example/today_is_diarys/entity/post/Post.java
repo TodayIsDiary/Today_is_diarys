@@ -55,11 +55,12 @@ public class Post {
         this.date = LocalDateTime.now();
     }
 
-    public Post(String title, String content, String category, String writer){
+    public Post(String title, String content, String category, String writer, Long id){
         this.title = title;
         this.content = content;
         this.category = category;
         this.writer = writer;
+        this.id = id;
     }
 
     public void set(String title, String content, String category){
