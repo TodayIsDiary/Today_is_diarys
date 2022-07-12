@@ -22,7 +22,7 @@ public class PostService {
 
     public void createBoard(Long id, PostDto postDto){
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("notfound"));
-        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user.getNickName());
+        Post post = new Post(postDto.getContent(), postDto.getTitle(), postDto.getCategory(),user.getNickName(), user.getId());
        postRepository.save(post);
     }
 
