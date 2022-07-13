@@ -39,11 +39,8 @@ public class User{
     @Column(length = 30)
     private String introduce;
 
-    public void setNK(String nickName){
+    public void setUser(String nickName, String introduce){
         this.nickName = nickName;
-    }
-
-    public void setIC(String introduce){
         this.introduce = introduce;
     }
 
