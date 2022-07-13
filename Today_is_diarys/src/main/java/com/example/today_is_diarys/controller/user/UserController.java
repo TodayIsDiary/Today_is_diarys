@@ -1,7 +1,8 @@
 package com.example.today_is_diarys.controller.user;
 
 import com.example.today_is_diarys.dto.user.request.UserInfoDto;
-import com.example.today_is_diarys.dto.user.response.UserDto;
+import com.example.today_is_diarys.dto.user.response.UserMy;
+import com.example.today_is_diarys.dto.user.response.UserSet;
 import com.example.today_is_diarys.entity.user.User;
 import com.example.today_is_diarys.repository.user.UserRepository;
 import com.example.today_is_diarys.security.auth.enums.Role;
@@ -72,21 +73,27 @@ public class UserController {
         return "회원정보가 삭제되었습니다...";
     }
 
-    @PatchMapping("/user/nicknames/{id}")
-    public void setNk(@PathVariable Long id, @RequestBody UserInfoDto dto){
-        userService.SetNk(dto, id);
-    }
-
-    @PatchMapping("/user/introduces/{id}")
-    public void setIc(@PathVariable Long id, @RequestBody UserInfoDto dto){
-        userService.SetIc(dto, id);
-    }
-
     @GetMapping("/my")
-    public UserDto getUsers(Authentication authentication){
+    public UserMy getUsers(Authentication authentication){
         if(authentication == null){
             throw new BadCredentialsException("회원 정보를 찾을 수 없습니다.");
         }
         return userService.getUser(authentication.getName());
+    }
+
+    @GetMapping("/set")
+    public UserSet setUsers(Authentication authentication){
+        if (authentication == null){
+            throw new BadCredentialsException("회원님을 찾을 수 없습니다.");
+        }
+        return userService.setUser(authentication.getName());
+    }
+
+    @PatchMapping("/set")
+    public void setUser(Authentication authentication, @RequestBody UserSet userSet){
+        if (authentication == null){
+            throw new BadCredentialsException("회원님을 찾을 수 없습니다.");
+        }
+        userService.setUsers(authentication.getName(), userSet);
     }
 }
