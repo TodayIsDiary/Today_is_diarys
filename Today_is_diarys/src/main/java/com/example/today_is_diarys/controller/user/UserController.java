@@ -7,6 +7,7 @@ import com.example.today_is_diarys.entity.user.User;
 import com.example.today_is_diarys.repository.user.UserRepository;
 import com.example.today_is_diarys.security.auth.enums.Role;
 import com.example.today_is_diarys.security.jwt.JwtTokenProvider;
+import com.example.today_is_diarys.security.jwt.dto.TokenDto;
 import com.example.today_is_diarys.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -58,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserInfoDto dto){
+    public TokenDto login(@RequestBody UserInfoDto dto){
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(()-> new IllegalArgumentException("가입하지 않은 Email입니다 (ㅡ_ㅡ)"));
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
